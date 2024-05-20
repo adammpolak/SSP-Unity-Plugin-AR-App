@@ -10,7 +10,10 @@ public class SSPStreamingThread : MonoBehaviour
 {
     [DllImport("__Internal")]
     public static extern int ssp_server(
-        [MarshalAs(UnmanagedType.LPStr)]string filename);
+        [MarshalAs(UnmanagedType.LPStr)]string filename,
+        [MarshalAs(UnmanagedType.LPStr)]string client_key = null,
+        [MarshalAs(UnmanagedType.LPStr)]string environment_name = null,
+        [MarshalAs(UnmanagedType.LPStr)]string sensor_name = null);
     [DllImport("__Internal")]
     public static extern void use_session(IntPtr session);
     private Thread serverThread;
