@@ -22,8 +22,8 @@ public class SSPStreamingThread : MonoBehaviour
     public static extern void initialize(
         [MarshalAs(UnmanagedType.LPStr)]string filename,
         [MarshalAs(UnmanagedType.LPStr)]string client_key = "",
-        [MarshalAs(UnmanagedType.LPStr)]string environment_name = "",
-        [MarshalAs(UnmanagedType.LPStr)]string sensor_name = "");
+        [MarshalAs(UnmanagedType.LPStr)]string environment_name,
+        [MarshalAs(UnmanagedType.LPStr)]string sensor_name);
     
     [DllImport("__Internal")]
     public static extern void pull_and_send_frames();
@@ -33,8 +33,8 @@ public class SSPStreamingThread : MonoBehaviour
     public ARSession arSession;
 
     // Currently it defaults to automatic running, switch boolean values to set to manual
-    private bool hasntLaunched = true;
-    private bool hasntManual = false;
+    private bool launchingAuto = true;
+    private bool launchingManual = false;
 
     // This is used in manual mode when to trigger sending a frame
     private bool screenTapped = false;
@@ -52,7 +52,7 @@ public class SSPStreamingThread : MonoBehaviour
         System.IntPtr session = (arSession.subsystem.nativePtr);
         use_session(session);
         Debug.Log(file_location);
-        initialize(file_location);
+        initialize(file_location, "2b212ecb-cd44-4004-9948-fb25787c59ac", "environment1", "adamunityiphone");
         // Now we run pull_and_send_frames at 5 frames a second, change if necessary
         while (true)
         {
@@ -71,7 +71,7 @@ public class SSPStreamingThread : MonoBehaviour
         System.IntPtr session = (arSession.subsystem.nativePtr);
         use_session(session);
         Debug.Log(file_location);
-        ssp_server(file_location);
+        ssp_server(file_location, "2b212ecb-cd44-4004-9948-fb25787c59ac", "environment1", "adamunityiphone");
     }
 
     // Update is called once per frame
@@ -82,7 +82,7 @@ public class SSPStreamingThread : MonoBehaviour
             screenTapped = true;
         }
 
-        if (hasntManual)
+        if (launchingManual)
         {
             file_location = Application.dataPath + "/Raw/serve_ios_raw.yaml";
             //We create our new thread that be running the method "ListenForMessages"
@@ -93,9 +93,9 @@ public class SSPStreamingThread : MonoBehaviour
             // threadRunning = true;
             //Now we start the thread
             serverThread.Start();
-            hasntManual = false;
+            launchingManual = false;
         }
-        if (hasntLaunched)
+        if (launchingAuto)
         {
             file_location = Application.dataPath + "/Raw/serve_ios_raw.yaml";
             //We create our new thread that be running the method "ListenForMessages"
@@ -106,7 +106,7 @@ public class SSPStreamingThread : MonoBehaviour
             // threadRunning = true;
             //Now we start the thread
             serverThread.Start();
-            hasntLaunched = false;
+            launchingAuto = false;
         }
     }
     void OnDestroy()
