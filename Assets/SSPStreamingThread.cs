@@ -52,7 +52,7 @@ public class SSPStreamingThread : MonoBehaviour
         System.IntPtr session = (arSession.subsystem.nativePtr);
         use_session(session);
         Debug.Log(file_location);
-        initialize(file_location, "2b212ecb-cd44-4004-9948-fb25787c59ac", "environment1", "adamunityiphone");
+        initialize(file_location);
         // Now we run pull_and_send_frames at 5 frames a second, change if necessary
         while (true)
         {
@@ -71,7 +71,7 @@ public class SSPStreamingThread : MonoBehaviour
         System.IntPtr session = (arSession.subsystem.nativePtr);
         use_session(session);
         Debug.Log(file_location);
-        ssp_server(file_location, "2b212ecb-cd44-4004-9948-fb25787c59ac", "environment1", "adamunityiphone");
+        ssp_server(file_location);
     }
 
     // Update is called once per frame
