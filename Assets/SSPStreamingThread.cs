@@ -22,8 +22,8 @@ public class SSPStreamingThread : MonoBehaviour
     public static extern void initialize(
         [MarshalAs(UnmanagedType.LPStr)]string filename,
         [MarshalAs(UnmanagedType.LPStr)]string client_key = "",
-        [MarshalAs(UnmanagedType.LPStr)]string environment_name,
-        [MarshalAs(UnmanagedType.LPStr)]string sensor_name);
+        [MarshalAs(UnmanagedType.LPStr)]string environment_name = "",
+        [MarshalAs(UnmanagedType.LPStr)]string sensor_name = "");
     
     [DllImport("__Internal")]
     public static extern void pull_and_send_frames();
